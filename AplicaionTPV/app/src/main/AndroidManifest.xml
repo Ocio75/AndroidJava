@@ -13,6 +13,18 @@
         android:theme="@style/Theme.AplicaionTPV"
         tools:targetApi="31">
         <activity
+            android:name=".menu_terminar"
+            android:exported="false" />
+        <activity
+            android:name=".menu_menu"
+            android:exported="false" />
+        <activity
+            android:name=".menu_productos"
+            android:exported="false" />
+        <activity
+            android:name=".Menu_opciones"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
