@@ -3,7 +3,7 @@ package com.example.aplicaiontpv;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+// Comentario de prueba jjjjjjjjj
 public class ConexionSQLServer {
     private final String ip = "sql518.sql.dinaserver.com";
     private final int port = 1433;
