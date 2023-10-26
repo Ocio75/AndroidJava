@@ -3,17 +3,38 @@ package com.example.aplicaiontpv.Objetos;
 public class Articulo {
     private int cod_articulo ;
     private int stock ;
+    private String tipo;
+    private String nombre;
     private Double precio ;
     private byte[]Imagen ;
 
-    public Articulo(int cod_articulo, int stock, Double precio, byte[] imagen) {
+
+    public Articulo(int cod_articulo, int stock, String tipo, String nombre, Double precio, byte[] imagen) {
         this.cod_articulo = cod_articulo;
         this.stock = stock;
+        this.tipo = tipo;
+        this.nombre = nombre;
         this.precio = precio;
         Imagen = imagen;
     }
 
     public Articulo() {
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public int getCod_articulo() {
