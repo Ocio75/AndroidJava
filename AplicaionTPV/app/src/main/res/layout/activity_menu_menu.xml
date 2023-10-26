@@ -6,4 +6,225 @@
     android:layout_height="match_parent"
     tools:context=".menu_menu">
 
+    <RadioGroup
+        android:id="@+id/rgPrimero"
+        android:layout_width="388dp"
+        android:layout_height="355dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+        <RadioButton
+            android:id="@+id/rbPrimero1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ensalada mixta"
+            android:textSize="34sp" />
+
+        <RadioButton
+            android:id="@+id/rbPrimero2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Pisto a la bilbaina"
+            android:textSize="34sp" />
+
+        <RadioButton
+            android:id="@+id/rbPrimero3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Cocido de alubia roja"
+            android:textSize="34sp" />
+
+        <RadioButton
+            android:id="@+id/rbPrimero4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Empanada Gallega"
+            android:textSize="34sp" />
+
+        <RadioButton
+            android:id="@+id/rbPrimero5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Sopa de pollo"
+            android:textSize="34sp" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="457dp"
+        android:layout_height="154dp"
+        android:layout_marginStart="412dp"
+        android:layout_marginTop="16dp"
+        android:text="MENÚ"
+        android:textAlignment="center"
+        android:textSize="96sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="394dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="240dp"
+        android:text="PRIMERO"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="370dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="480dp"
+        android:layout_marginTop="240dp"
+        android:text="SEGUNDO"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="354dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="904dp"
+        android:layout_marginTop="240dp"
+        android:text="POSTRE"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/rgSegundo"
+        android:layout_width="369dp"
+        android:layout_height="343dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="48dp"
+        app:layout_constraintStart_toEndOf="@+id/rgPrimero"
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+        <RadioButton
+            android:id="@+id/rbSegundo1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lomo adobado"
+            android:textSize="34sp" />
+
+        <RadioButton
+            android:id="@+id/btSegundo2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dorada al horno"
+            android:layout_marginTop="25dp"
+            android:textSize="34sp" />
+
+        <RadioButton
+            android:id="@+id/rbSegundo3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Carrillera estofada"
+            android:layout_marginTop="25dp"
+            android:textSize="34sp" />
+
+        <RadioButton
+            android:id="@+id/rbSegundo4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bacalao gratinado"
+            android:layout_marginTop="25dp"
+            android:textSize="34sp" />
+
+        <RadioButton
+            android:id="@+id/rbSegundo5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ternera con setas"
+            android:layout_marginTop="25dp"
+            android:textSize="34sp" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/rbPostre"
+        android:layout_width="356dp"
+        android:layout_height="346dp"
+        android:layout_marginTop="348dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/rbPostre1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Natillas"
+            android:textSize="34sp" />
+
+        <RadioButton
+            android:id="@+id/rbPostre2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tarta del día"
+            android:layout_marginTop="25dp"
+            android:textSize="34sp" />
+
+        <RadioButton
+            android:id="@+id/rbPostre3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Macedonia de frutas"
+            android:layout_marginTop="25dp"
+            android:textSize="30dp" />
+
+        <RadioButton
+            android:id="@+id/rbPostre4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Yogur"
+            android:layout_marginTop="25dp"
+            android:textSize="34sp" />
+
+        <RadioButton
+            android:id="@+id/rbPostre5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Helado"
+            android:layout_marginTop="25dp"
+            android:textSize="34sp" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btAtras"
+        android:layout_width="238dp"
+        android:layout_height="93dp"
+        android:layout_marginEnd="332dp"
+        android:layout_marginBottom="44dp"
+        android:onClick="atras"
+        android:text="Atras"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btAceptar"
+        android:layout_width="246dp"
+        android:layout_height="85dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="52dp"
+        android:onClick="aceptar"
+        android:text="Aceptar"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
