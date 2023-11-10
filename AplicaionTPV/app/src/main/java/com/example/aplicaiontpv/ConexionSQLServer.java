@@ -5,41 +5,39 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexionSQLServer {
-    private final String ip = "sql518.sql.dinaserver.com";
+    private final String ip = "sql521.sql.dinaserver.com";
     private final int port = 1433;
-    private final String BBDD = "Reto1";
-    private final String user = "AdminG2";
+    private final String BBDD = "Reto1G2";
+    private final String user = "AdminGR2";
     private final String passwd = "Reto01Ayuda-";
-    private final String cadena = "jdbc:sqlserver://" + ip + ":" + port + ";databaseName=" + BBDD + ";encrypt=false;trustServerCertificate=true";
+    private final String cadena = "jdbc:jtds:sqlserver://" + ip + ":" + port + ";databaseName=" + BBDD + ";user=" + user + ";password=" + passwd;
     private final String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    protected static Connection con;
+    public Connection con;
+
+    public ConexionSQLServer() {
+    }
 
     public void Conectar() {
         try {
             Class.forName(driver);
-            con = DriverManager.getConnection(cadena, user, passwd);
-            if (con != null) {
-                System.out.println("Conexión a BD " + ip + " con éxito");
-            } else {
-                System.out.println("Imposible conexión con " + ip);
-            }
+            con = DriverManager.getConnection(cadena);
+            con = DriverManager.getConnection(cadena);
+            con = DriverManager.getConnection(cadena);
+
         } catch (ClassNotFoundException ex) {
-            System.out.println("Excepción de clase no encontrada " + ex);
+            ex.printStackTrace();
         } catch (SQLException ex) {
-            System.out.println("Excepción de SQL " + ex);
+            ex.printStackTrace();
         }
     }
 
     public void Cerrar() {
         try {
-            if (con != null) {
-                if (!con.isClosed()) {
-                    con.close();
-                }
+            if (con != null && !con.isClosed()) {
+                con.close();
             }
         } catch (SQLException ex) {
-            System.out.println("Excepción al cerrar la conexión " + ex);
+            ex.printStackTrace();
         }
     }
-
 }

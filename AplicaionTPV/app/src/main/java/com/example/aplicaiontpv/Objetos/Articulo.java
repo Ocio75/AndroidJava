@@ -8,7 +8,13 @@ public class Articulo {
     private Double precio ;
     private byte[]Imagen ;
 
-
+    public Articulo(int stock, String tipo, String nombre, Double precio, byte[] imagen) {
+        this.stock = stock;
+        this.tipo = tipo;
+        this.nombre = nombre;
+        this.precio = precio;
+        Imagen = imagen;
+    }
     public Articulo(int cod_articulo, int stock, String tipo, String nombre, Double precio, byte[] imagen) {
         this.cod_articulo = cod_articulo;
         this.stock = stock;

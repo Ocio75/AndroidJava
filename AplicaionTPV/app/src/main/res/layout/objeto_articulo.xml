@@ -46,6 +46,7 @@
             android:layout_marginStart="36dp"
             android:layout_marginTop="172dp"
             android:text="TextView"
+            android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintTop_toTopOf="parent" />
 
