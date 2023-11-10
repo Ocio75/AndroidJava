@@ -34,12 +34,12 @@ public class Menu_opciones extends AppCompatActivity {
             finish();
         } else if (v.equals(ibBebidas)) {
             i = new Intent(this, menu_productos.class);
-            i.putExtra("modo", "bebida");
+            i.putExtra("modo", "Bebida");
             startActivity(i);
             finish();
         }else if (v.equals(ibCarta)) {
             i = new Intent(this, menu_productos.class);
-            i.putExtra("modo", "carta");
+            i.putExtra("modo", "Carta");
             startActivity(i);
             finish();
         } else if (v.equals(ibMenu)) {

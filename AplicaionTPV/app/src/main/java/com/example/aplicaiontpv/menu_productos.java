@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.aplicaiontpv.Objetos.Articulo;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 
 public class menu_productos extends AppCompatActivity {
     private GridView gvArticulos;
-    private TextView tvInformacion;
+    private TextView tvInformacion,textView10;
     ArrayList<Articulo> articulos = new ArrayList<Articulo>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +34,11 @@ public class menu_productos extends AppCompatActivity {
         setContentView(R.layout.activity_menu_productos);
         gvArticulos= findViewById(R.id.gvArticulos);
         tvInformacion=findViewById(R.id.tvInformacion);
+        textView10=findViewById(R.id.textView10);
         Bundle bundle = getIntent().getExtras();
         String modo=bundle.getString("modo");
         iniciarProductos(modo);
-        if(modo.equals("bebida")){
+        if(modo.equals("Bebida")){
             tvInformacion.setText("BEBIDAS");
         }else{
             tvInformacion.setText("CARTA");
@@ -49,31 +51,27 @@ public class menu_productos extends AppCompatActivity {
         }
     }
     private void iniciarProductos(String tipo){
-        ConexionSQLServer conexion = new ConexionSQLServer();
-        conexion.Conectar();
-        String query="SELECT * FROM Articulos WHERE TIPO like '"+tipo+"')";
+        String query="SELECT COD_ARTICULO, NOMBRE, TIPO, STOCK, PRECIO FROM Articulos WHERE TIPO ='" + tipo + "'";
+
         try{
-            Connection con= conexion.con;
-            if(conexion.con!=null){
-                Toast.makeText(this, "Conexion ok",Toast.LENGTH_LONG).show();
-            }
-            Statement statement = conexion.con.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+            Connection Conexion = ConexionSQLServer.conexionBD();
+            ResultSet resultSet = Conexion.prepareStatement(query).executeQuery();
+            textView10.setText("Fuera");
             while (resultSet.next()) {
-                int cod_articulo = resultSet.getInt(0);
-                int stock = resultSet.getInt(1);
-                String nombre = resultSet.getString(5);
-                Double precio = resultSet.getDouble(2);
-                byte[] imagen = resultSet.getBytes(3);
+                textView10.setText("Dentro");
+                int cod_articulo = resultSet.getInt(1);
+                int stock = resultSet.getInt(4);
+                String nombre = resultSet.getString(2);
+                Double precio = resultSet.getDouble(5);
+                byte[] imagen = new byte[10]; //resultSet.getBytes(3);
                 Articulo articulo = new Articulo(cod_articulo, stock, tipo, nombre, precio, imagen);
                 articulos.add(articulo);
             }
-            statement.close();
             resultSet.close();
         }catch(SQLException e){
+            //textView10.setText(e.getStackTrace().toString());
             e.printStackTrace();
         }
-        conexion.Cerrar();
         AdaptadorArticulos adaptador = new AdaptadorArticulos(this);
         gvArticulos.setAdapter(adaptador);
     }
