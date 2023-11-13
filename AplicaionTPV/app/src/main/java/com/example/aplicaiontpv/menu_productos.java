@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +30,9 @@ public class menu_productos extends AppCompatActivity {
     private GridView gvArticulos;
     private TextView tvInformacion,textView10;
     ArrayList<Articulo> articulos = new ArrayList<Articulo>();
+    ArrayList<String> comandaStrings = new ArrayList<>();
+
+    private ListView lvComanda;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +41,7 @@ public class menu_productos extends AppCompatActivity {
         tvInformacion=findViewById(R.id.tvInformacion);
         textView10=findViewById(R.id.textView10);
         Bundle bundle = getIntent().getExtras();
+        lvComanda = findViewById(R.id.lvComanda);
         String modo=bundle.getString("modo");
         iniciarProductos(modo);
         if(modo.equals("Bebida")){
@@ -59,6 +65,7 @@ public class menu_productos extends AppCompatActivity {
             textView10.setText("Fuera");
             while (resultSet.next()) {
                 textView10.setText("Dentro");
+                textView10.setText("");
                 int cod_articulo = resultSet.getInt(1);
                 int stock = resultSet.getInt(4);
                 String nombre = resultSet.getString(2);
@@ -67,6 +74,7 @@ public class menu_productos extends AppCompatActivity {
                 Articulo articulo = new Articulo(cod_articulo, stock, tipo, nombre, precio, imagen);
                 articulos.add(articulo);
             }
+
             resultSet.close();
         }catch(SQLException e){
             //textView10.setText(e.getStackTrace().toString());
@@ -81,21 +89,106 @@ public class menu_productos extends AppCompatActivity {
     }
     class AdaptadorArticulos extends ArrayAdapter<Articulo> {
         AppCompatActivity appCompatActivity;
-        public AdaptadorArticulos( AppCompatActivity context) {
-            super(context, R.layout.objeto_articulo,articulos);
-            appCompatActivity=context;
+
+        public AdaptadorArticulos(AppCompatActivity context) {
+            super(context, R.layout.objeto_articulo, articulos);
+            appCompatActivity = context;
         }
+
         public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = appCompatActivity.getLayoutInflater();
             View item = inflater.inflate(R.layout.objeto_articulo, null);
 
             TextView id = item.findViewById(R.id.textView3);
-            id.setText(articulos.get(position).getCod_articulo());
+            id.setText(String.valueOf(articulos.get(position).getCod_articulo()));
+
             TextView textView = item.findViewById(R.id.textView);
             textView.setText(articulos.get(position).getNombre());
-          /*  ImageView foto = item.findViewById(R.id.imageView);
-            mostrarImagenDesdeBytes(articulos.get(position).getImagen(),foto);*/
-        return (item);
+
+            // ImageView foto = item.findViewById(R.id.imageView);
+            // mostrarImagenDesdeBytes(articulos.get(position).getImagen(),foto);
+
+            item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Display a Toast with the ID when the item is clicked
+                    Articulo selectedArticulo = articulos.get(position);
+                    agregarArticuloAComanda(selectedArticulo);
+                }
+            });
+
+            return item;
         }
+    }
+    private void agregarArticuloAComanda(Articulo articulo) {
+        String itemName = articulo.getNombre();
+        double itemPrice = articulo.getPrecio();
+        String itemString = itemName + " - $" + itemPrice;
+        boolean itemExists = false;
+
+        for (int i = 0; i < comandaStrings.size(); i++) {
+            String existingItem = comandaStrings.get(i);
+
+            if (existingItem.contains(itemName)) {
+                int startIndex = existingItem.lastIndexOf("*");
+                int endIndex = existingItem.lastIndexOf("= $");
+
+                if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+                    String quantityStr = existingItem.substring(startIndex + 1, endIndex).trim();
+                    int quantity = Integer.parseInt(quantityStr) + 1;
+                    itemString = itemName + " - $" + itemPrice + " * " + quantity + " = $" + itemPrice * quantity;
+                    comandaStrings.set(i, itemString);
+                    itemExists = true;
+                    break;
+                }
+                else{
+                    itemString = itemName + " - $" + itemPrice + " * " + 2 + " = $" + itemPrice*2;
+                    comandaStrings.set(i, itemString);
+                    itemExists = true;
+                    break;
+                }
+            }
+        }
+
+        if (!itemExists) {
+            comandaStrings.add(itemString);
+        }
+
+        ArrayAdapter<String> comandaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, comandaStrings);
+        lvComanda.setAdapter(comandaAdapter);
+        comandaAdapter.notifyDataSetChanged();
+        lvComanda.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String itemClicked = comandaStrings.get(position);
+                String[] parts = itemClicked.split(" - ");
+                String itemName = parts[0];
+                double itemPrice = articulo.getPrecio();
+                int quantity = 0;
+
+                // Encuentra el índice del artículo en comandaStrings
+                int index = comandaStrings.indexOf(itemClicked);
+
+                if (index != -1) {
+                    int startIndex = itemClicked.lastIndexOf("*");
+                    int endIndex = itemClicked.lastIndexOf("= $");
+
+                    if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
+                        String quantityStr = itemClicked.substring(startIndex + 1, endIndex).trim();
+                        quantity = Integer.parseInt(quantityStr);
+                    }
+                    if (quantity > 1) {
+                        quantity--;
+                        String newItemString = itemName + " - $" + itemPrice + " * " + quantity + " = $" + itemPrice * quantity;
+                        if(quantity == 1)
+                            newItemString = itemName + " - $" + itemPrice;
+                        comandaStrings.set(index, newItemString);
+                    } else {
+                        comandaStrings.remove(index);
+                    }
+                }
+                comandaAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }
