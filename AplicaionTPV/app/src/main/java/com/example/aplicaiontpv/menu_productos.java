@@ -24,6 +24,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class menu_productos extends AppCompatActivity {
@@ -123,35 +124,31 @@ public class menu_productos extends AppCompatActivity {
     private void agregarArticuloAComanda(Articulo articulo) {
         String itemName = articulo.getNombre();
         double itemPrice = articulo.getPrecio();
-        String itemString = itemName + " - $" + itemPrice;
+        String itemString ="";
         boolean itemExists = false;
 
         for (int i = 0; i < comandaStrings.size(); i++) {
             String existingItem = comandaStrings.get(i);
 
             if (existingItem.contains(itemName)) {
-                int startIndex = existingItem.lastIndexOf("*");
-                int endIndex = existingItem.lastIndexOf("= $");
+                actualizarPrecio(itemPrice);
+                String[] parts = existingItem.split(" x ");
+                int quantity = 1;
 
-                if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
-                    String quantityStr = existingItem.substring(startIndex + 1, endIndex).trim();
-                    int quantity = Integer.parseInt(quantityStr) + 1;
-                    itemString = itemName + " - $" + itemPrice + " * " + quantity + " = $" + itemPrice * quantity;
-                    comandaStrings.set(i, itemString);
-                    itemExists = true;
-                    break;
+                if (parts.length > 1) {
+                    quantity = Integer.parseInt(parts[1].trim()) + 1;
                 }
-                else{
-                    itemString = itemName + " - $" + itemPrice + " * " + 2 + " = $" + itemPrice*2;
-                    comandaStrings.set(i, itemString);
-                    itemExists = true;
-                    break;
-                }
+
+                itemString = itemName + " x " + quantity;
+                comandaStrings.set(i, itemString);
+                itemExists = true;
+                break;
             }
         }
 
         if (!itemExists) {
-            comandaStrings.add(itemString);
+            actualizarPrecio(itemPrice);
+            comandaStrings.add(itemName);
         }
 
         ArrayAdapter<String> comandaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, comandaStrings);
@@ -161,27 +158,19 @@ public class menu_productos extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String itemClicked = comandaStrings.get(position);
-                String[] parts = itemClicked.split(" - ");
+                String[] parts = itemClicked.split(" x ");
                 String itemName = parts[0];
-                double itemPrice = articulo.getPrecio();
+                String quantityStr = parts[1];
                 int quantity = 0;
 
-                // Encuentra el índice del artículo en comandaStrings
                 int index = comandaStrings.indexOf(itemClicked);
 
                 if (index != -1) {
-                    int startIndex = itemClicked.lastIndexOf("*");
-                    int endIndex = itemClicked.lastIndexOf("= $");
-
-                    if (startIndex != -1 && endIndex != -1 && startIndex < endIndex) {
-                        String quantityStr = itemClicked.substring(startIndex + 1, endIndex).trim();
+                    actualizarPrecio(itemPrice);
                         quantity = Integer.parseInt(quantityStr);
-                    }
                     if (quantity > 1) {
                         quantity--;
-                        String newItemString = itemName + " - $" + itemPrice + " * " + quantity + " = $" + itemPrice * quantity;
-                        if(quantity == 1)
-                            newItemString = itemName + " - $" + itemPrice;
+                        String newItemString = itemName +" x " + quantity;
                         comandaStrings.set(index, newItemString);
                     } else {
                         comandaStrings.remove(index);
@@ -190,5 +179,21 @@ public class menu_productos extends AppCompatActivity {
                 comandaAdapter.notifyDataSetChanged();
             }
         });
+    }
+    public void actualizarPrecio(double precio) {
+        String currentText = textView10.getText().toString().trim();
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        if (!currentText.isEmpty()) {
+            double precioTotal = Double.parseDouble(currentText.replace("$", ""));
+            precioTotal += precio;
+
+            String formattedPrecioTotal = decimalFormat.format(precioTotal);
+
+            textView10.setText(formattedPrecioTotal + "$");
+        } else {
+            // Handle the case when the text is empty, e.g., initialize precioTotal to precio
+            String formattedPrecio = decimalFormat.format(precio);
+            textView10.setText(formattedPrecio + "$");
+        }
     }
 }
