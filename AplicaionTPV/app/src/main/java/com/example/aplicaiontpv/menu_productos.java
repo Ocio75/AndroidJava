@@ -2,6 +2,7 @@ package com.example.aplicaiontpv;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,8 +29,9 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class menu_productos extends AppCompatActivity {
+public class menu_productos extends AppCompatActivity implements View.OnClickListener {
     private GridView gvArticulos;
+    private Button btAceptar;
     private TextView tvInformacion,textView10;
     ArrayList<Articulo> articulos = new ArrayList<Articulo>();
     ArrayList<String> comandaStrings = new ArrayList<>();
@@ -38,6 +41,8 @@ public class menu_productos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_productos);
+        btAceptar= findViewById(R.id.btAceptarMP);
+        btAceptar.setOnClickListener(this);
         gvArticulos= findViewById(R.id.gvArticulos);
         tvInformacion=findViewById(R.id.tvInformacion);
         textView10=findViewById(R.id.textView10);
@@ -88,6 +93,17 @@ public class menu_productos extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, opciones);
         s.setAdapter(adapter);
     }
+
+    @Override
+    public void onClick(View v) {
+        Intent i;
+        if(v==btAceptar){
+            i = new Intent(this, Menu_opciones.class);
+            startActivity(i);
+            finish();
+        }
+    }
+
     class AdaptadorArticulos extends ArrayAdapter<Articulo> {
         AppCompatActivity appCompatActivity;
 
