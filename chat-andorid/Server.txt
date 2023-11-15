@@ -1,0 +1,119 @@
+package Chat;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
+
+public class ChatServer {
+    private static Set<PrintWriter> clients = new CopyOnWriteArraySet<>();
+    private static Map<PrintWriter, String> connectedUsers = new HashMap<>();
+
+    public static void main(String[] args) {
+        try (ServerSocket serverSocket = new ServerSocket(12345)) {
+            System.out.println("Servidor iniciado. Esperando conexiones...");
+
+            while (true) {
+                Socket socket = serverSocket.accept();
+                System.out.println("Nuevo cliente conectado desde: " + socket.getInetAddress());
+
+                PrintWriter clientWriter = new PrintWriter(socket.getOutputStream(), true);
+                clients.add(clientWriter);
+
+                // Obtener el nombre de usuario al conectarse
+                Scanner scanner = new Scanner(socket.getInputStream());
+                String username = scanner.nextLine();
+ 
+                // Registrar la conexión del usuario
+                connectedUsers.put(clientWriter, username);
+                System.out.println("Usuario " + username + " se ha conectado en " + getFormattedTime());
+
+                // Enviar mensaje de conexión a todos los clientes
+                sendToAllClients("Se ha conectado el usuario " + username + " a las " + getFormattedTime(), username);
+
+                // Manejar cada cliente en un hilo separado
+                new ClientHandler(socket, clientWriter, username).start();
+            }
+        } catch (IOException e) {
+            System.err.println("Error al iniciar el servidor: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    static class ClientHandler extends Thread {
+        private Socket socket;
+        private PrintWriter output;
+        private String username;
+        private long connectTime;
+
+        public ClientHandler(Socket socket, PrintWriter output, String username) {
+            this.socket = socket;
+            this.output = output;
+            this.username = username;
+            this.connectTime = System.currentTimeMillis();
+        }
+
+        @Override
+        public void run() {
+            try {
+                Scanner scanner = new Scanner(socket.getInputStream());
+                while (scanner.hasNextLine()) {
+                    String message = scanner.nextLine();
+                    System.out.println("Mensaje recibido de " + username + ": " + message);
+
+                    // No envía de vuelta el mensaje del propio cliente
+                    if (!message.trim().isEmpty()) {
+                        // Agregado para rastrear el flujo
+                        System.out.println("Enviando mensaje a todos los clientes...");
+                        sendToAllClients(message, username);
+                    }
+                }
+            } catch (IOException e) {
+                System.err.println("Error de entrada/salida con el cliente " + username + ": " + e.getMessage());
+                e.printStackTrace();
+            } finally {
+                clients.remove(output);
+                long disconnectTime = System.currentTimeMillis();
+                long totalTimeConnected = (disconnectTime - connectTime) / 1000; // Tiempo total conectado en segundos
+                connectedUsers.remove(output);
+
+                // Enviar mensaje de desconexión a todos los clientes
+                String disconnectMessage = String.format("Se ha desconectado el usuario %s a las %s. Tiempo total de conexión: %d segundos",
+                        username, getFormattedTime(), totalTimeConnected);
+                sendToAllClients(disconnectMessage, username);
+
+                try {
+                    socket.close();
+                    System.out.println("Cliente desconectado: " + username + " después de " + totalTimeConnected + " segundos");
+                } catch (IOException e) {
+                    System.err.println("Error al cerrar el socket del cliente " + username + ": " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static void sendToAllClients(String message, String senderUsername) {
+        // Enviar el mensaje a todos los clientes conectados con el formato Usuario:Mensaje
+        String formattedMessage = senderUsername + ": " + message;
+        //String formattedMessage = senderUsername + ": " + message;
+        System.out.println("Enviando a todos los clientes: " + formattedMessage);
+        
+        for (PrintWriter client : clients) {
+            client.println(formattedMessage);
+        }
+    }
+
+    private static String getFormattedTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        return sdf.format(new Date());
+    }
+}
+
