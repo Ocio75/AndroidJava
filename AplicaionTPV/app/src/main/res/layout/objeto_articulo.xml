@@ -6,15 +6,15 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="583dp"
+        android:layout_height="210dp"
         android:layout_weight="1">
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="456dp"
-            android:layout_height="80dp"
-            android:layout_marginEnd="824dp"
+            android:layout_width="634dp"
+            android:layout_height="87dp"
+            android:layout_marginEnd="100dp"
             android:layout_weight="1"
             android:text="Producto"
             android:textAlignment="center"
@@ -22,7 +22,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.002" />
+            app:layout_constraintVertical_bias="0.398" />
 
         <TextView
             android:id="@+id/textView3"
