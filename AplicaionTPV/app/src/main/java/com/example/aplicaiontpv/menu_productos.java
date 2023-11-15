@@ -76,7 +76,7 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
                 int stock = resultSet.getInt(4);
                 String nombre = resultSet.getString(2);
                 Double precio = resultSet.getDouble(5);
-                byte[] imagen = new byte[10]; //resultSet.getBytes(3);
+                byte[] imagen = new byte[10];
                 Articulo articulo = new Articulo(cod_articulo, stock, tipo, nombre, precio, imagen);
                 articulos.add(articulo);
             }
