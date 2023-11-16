@@ -44,7 +44,7 @@ public class Croqueta extends AppCompatActivity {
             try {
                 Log.d("ClientAsyncTask", "Intentando conectar al servidor...");
                 //socket = new Socket("10.0.2.2", 12345);
-                socket = new Socket("192.168.0.6", 12345);
+                socket = new Socket("192.168.0.5", 12345);
                 Log.d("ClientAsyncTask", "Conectado al servidor.");
 
                 output = new PrintWriter(socket.getOutputStream(), true);
