@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }catch(SQLException e){
             e.printStackTrace();
         }
-        if(etPassword.getText().toString().equals(contrasena)){
+        if(contrasena.equals(etPassword.getText().toString())){
             Toast.makeText(this, "Logea ", Toast.LENGTH_SHORT).show();
             return  true;
         }

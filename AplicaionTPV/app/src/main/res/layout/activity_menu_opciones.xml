@@ -4,81 +4,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#697c8e"
     tools:context=".Menu_opciones">
 
     <ImageButton
         android:id="@+id/ibCarta"
         android:layout_width="335dp"
         android:layout_height="340dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginBottom="328dp"
+        android:background="@drawable/carta"
         android:contentDescription="@string/appbar_scrolling_view_behavior"
         android:onClick="onClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintHorizontal_bias="0.952"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.414"
+        tools:srcCompat="@drawable/carta" />
 
     <ImageButton
         android:id="@+id/ibMenu"
         android:layout_width="335dp"
         android:layout_height="340dp"
-        android:layout_marginStart="480dp"
-        android:layout_marginTop="232dp"
+        android:background="@drawable/menudeldia"
         android:contentDescription="@string/appbar_scrolling_view_behavior"
         android:onClick="onClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintVertical_bias="0.414"
+        tools:srcCompat="@drawable/menudeldia" />
 
     <ImageButton
         android:id="@+id/ibBebidas"
         android:layout_width="335dp"
         android:layout_height="340dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="232dp"
+        android:background="@drawable/bebidas"
         android:onClick="onClick"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.049"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.414"
         tools:ignore="SpeakableTextPresentCheck"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/bebidas" />
 
     <Button
         android:id="@+id/btLogout"
         android:layout_width="320dp"
         android:layout_height="100dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="60dp"
+        android:backgroundTint="#3273b2 "
         android:onClick="onClick"
         android:text="LogOut"
-        android:textSize="24sp"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.973"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.037" />
 
     <Button
         android:id="@+id/btTerminar"
-        android:layout_width="332dp"
-        android:layout_height="130dp"
-        android:layout_marginStart="472dp"
-        android:layout_marginBottom="68dp"
+        android:layout_width="400dp"
+        android:layout_height="161dp"
+        android:backgroundTint="#3273b2 "
         android:onClick="onClick"
         android:text="Terminar"
-        android:textSize="24sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.922" />
 
     <Button
         android:id="@+id/btChat"
         android:layout_width="327dp"
         android:layout_height="98dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="69dp"
-        android:layout_marginEnd="523dp"
-        android:layout_marginBottom="65dp"
+        android:backgroundTint="#3273b2 "
         android:onClick="onClick"
         android:text="Chat"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/ibBebidas"
-        app:layout_constraintEnd_toStartOf="@+id/btLogout"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.041"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.037" />
 </androidx.constraintlayout.widget.ConstraintLayout>

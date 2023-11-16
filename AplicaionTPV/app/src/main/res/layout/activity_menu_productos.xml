@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#697c8e"
     tools:context=".menu_productos">
 
     <GridView
         android:id="@+id/gvArticulos"
         android:layout_width="610dp"
         android:layout_height="700dp"
+        android:foregroundTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -19,20 +21,23 @@
 
     <ListView
         android:id="@+id/lvComanda"
-        android:layout_width="665dp"
-        android:layout_height="684dp"
+        android:layout_width="630dp"
+        android:layout_height="693dp"
+        android:foregroundTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.001"
+        app:layout_constraintHorizontal_bias="0.03"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.077" />
 
     <TextView
         android:id="@+id/tvInformacion"
         android:layout_width="500dp"
         android:layout_height="55dp"
+        android:foregroundTint="#FFFFFF"
         android:text="TextView"
+        android:textColor="#FFFFFF"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,11 +48,13 @@
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="623dp"
-        android:layout_height="173dp"
+        android:layout_width="611dp"
+        android:layout_height="139dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="21dp"
+        android:foregroundTint="#FFFFFF"
         android:text="TextView"
+        android:textColor="#FFFFFF"
         android:textSize="48sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lvComanda" />
@@ -56,6 +63,7 @@
         android:id="@+id/btAceptarMP"
         android:layout_width="520dp"
         android:layout_height="57dp"
+        android:backgroundTint="#3273b2"
         android:text="Aceptar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

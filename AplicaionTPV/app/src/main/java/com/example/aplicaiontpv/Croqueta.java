@@ -1,4 +1,5 @@
 package com.example.aplicaiontpv;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -16,10 +17,10 @@ import java.util.Scanner;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class Croqueta extends AppCompatActivity {
+public class Croqueta extends AppCompatActivity implements View.OnClickListener {
     private EditText messageEditText;
     private LinearLayout chatLayout;
-    private Button sendButton;
+    private Button sendButton, btSalir;
 
     private Socket socket;
     private PrintWriter output;
@@ -32,7 +33,8 @@ public class Croqueta extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_croqueta);
-
+        btSalir= findViewById(R.id.sendButton2);
+        btSalir.setOnClickListener(this);
         messageEditText = findViewById(R.id.messageEditText);
         chatLayout = findViewById(R.id.chatLayout);
         sendButton = findViewById(R.id.sendButton);
@@ -121,5 +123,15 @@ public class Croqueta extends AppCompatActivity {
 
         textView.setLayoutParams(layoutParams);
         chatLayout.addView(textView);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(v==btSalir){
+            Intent i;
+            i = new Intent(this, Menu_opciones.class);
+            startActivity(i);
+            finish();
+        }
     }
 }

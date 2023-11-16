@@ -123,6 +123,7 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
             id.setText(String.valueOf(articulos.get(position).getCod_articulo()));
 
             TextView textView = item.findViewById(R.id.textView);
+            textView.setTextSize(24);
             textView.setText(articulos.get(position).getNombre());
 
             // ImageView foto = item.findViewById(R.id.imageView);
@@ -155,12 +156,14 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
                 actualizarPrecio(itemPrice);
                 String[] parts = existingItem.split(" x ");
                 int quantity = 2;
+                int index = Menu_opciones.FindIndex(articulo.getCod_articulo());
 
-                if (parts.length > 1 && articulo.getStock() > quantity) {
+                if (parts.length > 1 && index != -1 && index < articulos.size() && articulos.get(index).getStock() > quantity) {
                     quantity = Integer.parseInt(parts[1].trim()) + 1;
                 }
-                else if(articulo.getStock() == quantity)
+                if (index != -1 && index < articulos.size() && articulos.get(index).getStock() <= quantity) {
                     stock0 = true;
+                }
 
                 itemString = itemName + " x " + quantity;
                 comandaStrings.set(i, itemString);
@@ -174,9 +177,10 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
         if (!itemExists) {
             actualizarPrecio(itemPrice);
             comandaStrings.add(itemName);
+            byte[] temp = new byte[10];
+            Articulo arti = new Articulo(articulo.getCod_articulo(),1,articulo.getTipo(),articulo.getNombre(),articulo.getPrecio(),temp);
             if(!start)
-                Menu_opciones.articulosComanda.add(articulo);
-            Menu_opciones.articulosComanda.get(Menu_opciones.FindIndex(articulo.getCod_articulo())).setStock(1);
+                Menu_opciones.articulosComanda.add(arti);
         }
 
         ArrayAdapter<String> comandaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, comandaStrings);
@@ -190,17 +194,19 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
                 String itemName = parts[0];
                 String quantityStr = parts[1];
                 int quantity = 0;
-
                 int index = comandaStrings.indexOf(itemClicked);
 
                 if (index != -1) {
-                    actualizarPrecio(itemPrice);
-                        quantity = Integer.parseInt(quantityStr);
+                    actualizarPrecio(-itemPrice);
+                    quantity = Integer.parseInt(quantityStr);
+                    int indexA = Menu_opciones.FindIndex(articulo.getCod_articulo());
                     if (quantity > 1) {
                         quantity--;
-                        String newItemString = itemName +" x " + quantity;
+                        String newItemString = itemName + " x " + quantity;
                         comandaStrings.set(index, newItemString);
+                        Menu_opciones.articulosComanda.get(indexA).setStock(quantity);
                     } else {
+                        Menu_opciones.articulosComanda.remove(indexA);
                         comandaStrings.remove(index);
                     }
                 }
@@ -216,7 +222,7 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
         // Validate if currentText is a valid numeric string
         if (!currentText.isEmpty() && !currentText.equalsIgnoreCase("TextView")) {
             try {
-                double precioTotal = Double.parseDouble(currentText.replace("$", ""));
+                double precioTotal = Double.parseDouble(currentText.replace("$", "").replace(",","."));
                 precioTotal += precio;
 
                 String formattedPrecioTotal = decimalFormat.format(precioTotal);

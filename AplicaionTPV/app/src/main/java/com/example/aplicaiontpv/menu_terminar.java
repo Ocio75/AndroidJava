@@ -123,7 +123,7 @@ public class menu_terminar extends AppCompatActivity {
         String currentText = textView11.getText().toString().trim();
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
         if (!currentText.isEmpty()) {
-            double precioTotal = Double.parseDouble(currentText.replace("$", ""));
+            double precioTotal = Double.parseDouble(currentText.replace("$", "").replace(",","."));
             precioTotal += precio;
 
             String formattedPrecioTotal = decimalFormat.format(precioTotal);

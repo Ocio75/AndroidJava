@@ -31,9 +31,16 @@ public class ConexionSQLServer {
             StrictMode.setThreadPolicy(policy);
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
             Conexion = DriverManager.getConnection(cadena);
+            Conexion = DriverManager.getConnection(cadena);
+            Conexion = DriverManager.getConnection(cadena);
+            Conexion = DriverManager.getConnection(cadena);
+            Conexion = DriverManager.getConnection(cadena);
+            Conexion = DriverManager.getConnection(cadena);
+
         }catch(Exception ex){
 
         }
+        int boolen ;
         return Conexion;
     }
     public void Conectar() {
