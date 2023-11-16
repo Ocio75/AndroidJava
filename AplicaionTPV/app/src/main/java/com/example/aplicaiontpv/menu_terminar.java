@@ -3,7 +3,9 @@ package com.example.aplicaiontpv;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.WindowDecorActionBar;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -53,6 +55,7 @@ public class menu_terminar extends AppCompatActivity {
             while (resultSet.next()) {
                 cod_comanda = resultSet.getInt(1) + 1;
             }
+            insertarComandaLocal(cod_comanda, editTextText.getText().toString().trim());
             String query2="INSERT INTO COMANDAS (COD_COMANDA, DNI, NOTAS) VALUES ('" + cod_comanda + "', '" + MainActivity.dni + "', '" + editTextText.getText() + "')";
             Conexion.prepareStatement(query2).executeUpdate();
             for(int i = 0; i<Menu_opciones.articulosComanda.size();i++){
@@ -134,5 +137,31 @@ public class menu_terminar extends AppCompatActivity {
             String formattedPrecio = decimalFormat.format(precio);
             textView11.setText(formattedPrecio + "$");
         }
+    }
+    private void insertarComandaLocal(int codComanda, String notas) {
+        AdminSQLiteOpenHelper dbHelper = new AdminSQLiteOpenHelper(this, "ComandasDB", null, 1);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put("COD_COMANDA", codComanda);
+        values.put("DNI", MainActivity.dni);
+        values.put("NOTAS", notas);
+
+        // Insertar la comanda en la base de datos local
+        db.insert("COMANDAS_LOCAL", null, values);
+
+        // Insertar los detalles de la comanda en la base de datos local
+        for (Articulo articulo : Menu_opciones.articulosComanda) {
+            if (articulo.getTipo() != "Menu") {
+                ContentValues detallesValues = new ContentValues();
+                detallesValues.put("COD_ARTICULO", articulo.getCod_articulo());
+                detallesValues.put("COD_COMANDA", codComanda);
+                detallesValues.put("CANTIDAD", articulo.getStock());
+
+                // Insertar detalles en la base de datos local
+                db.insert("ARTICULOS_COMANDAS_LOCAL", null, detallesValues);
+            }
+        }
+        db.close();
     }
 }
