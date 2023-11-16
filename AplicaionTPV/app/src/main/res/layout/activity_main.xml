@@ -40,7 +40,6 @@
         android:ems="10"
         android:hint="usuario"
         android:inputType="text"
-        android:text=" "
         app:layout_constraintBottom_toBottomOf="@+id/textView8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView8"

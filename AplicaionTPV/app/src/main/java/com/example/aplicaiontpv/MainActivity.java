@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btLogIn=findViewById(R.id.btLogIn);
         btLogIn.setOnClickListener(this);
     }
-    private void hacerLogin(){
+    private boolean hacerLogin(){
         String query="select CONTRASEÑA from Empleados where DNI ="+etUsuario.getText();
         dni = Long.parseLong(String.valueOf(etUsuario.getText()));
 
@@ -48,20 +48,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(etPassword.getText().toString().equals(contrasena)){
             Toast.makeText(this, "Logea ", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(this, " no Logea ", Toast.LENGTH_SHORT).show();
-
+            return  true;
         }
+        Toast.makeText(this, " no Logea ", Toast.LENGTH_SHORT).show();
+        return  false;
     }
 
     @Override
     public void onClick(View v) {
+        Intent i = new Intent(this, Menu_opciones.class);
         if(v==btLogIn){
-            hacerLogin();
+            if(hacerLogin()){
+                startActivity(i);
+                finish();
+            }
         }
-        /*
-        i = new Intent(this, Menu_opciones.class);
-        startActivity(i);
-        finish();*/
     }
 }

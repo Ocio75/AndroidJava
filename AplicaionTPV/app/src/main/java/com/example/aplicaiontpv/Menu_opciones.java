@@ -13,7 +13,7 @@ import com.example.aplicaiontpv.Objetos.Articulo;
 import java.util.ArrayList;
 
 public class Menu_opciones extends AppCompatActivity {
-    private Button btLogOut,btTerminar;
+    private Button btLogOut,btTerminar,btChat;
     private ImageButton ibBebidas,ibMenu,ibCarta;
     public static ArrayList<Articulo> articulosComanda = new ArrayList<Articulo>();
 
@@ -30,6 +30,7 @@ public class Menu_opciones extends AppCompatActivity {
 
         btLogOut=findViewById(R.id.btLogout);
         btTerminar=findViewById(R.id.btTerminar);
+        btChat = findViewById(R.id.btChat);
         ibBebidas=findViewById(R.id.ibBebidas);
         ibCarta=findViewById(R.id.ibCarta);
         ibMenu=findViewById(R.id.ibMenu);
@@ -56,6 +57,10 @@ public class Menu_opciones extends AppCompatActivity {
             finish();
         } else if (v.equals(ibMenu)) {
             i = new Intent(this, menu_menu.class);
+            startActivity(i);
+            finish();
+        } else if (v.equals(btChat)) {
+            i = new Intent(this, Croqueta.class);
             startActivity(i);
             finish();
         }
