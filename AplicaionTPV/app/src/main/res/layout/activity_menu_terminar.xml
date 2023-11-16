@@ -7,6 +7,7 @@
     tools:context=".menu_terminar">
 
     <ListView
+        android:id="@+id/lvComanda"
         android:layout_width="779dp"
         android:layout_height="707dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,7 +21,8 @@
         android:id="@+id/button"
         android:layout_width="256dp"
         android:layout_height="79dp"
-        android:text="Button"
+        android:onClick="Aceptar"
+        android:text="Finalizar Comanda"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.91"
@@ -32,7 +34,6 @@
         android:id="@+id/textView11"
         android:layout_width="273dp"
         android:layout_height="85dp"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.475"
@@ -44,7 +45,7 @@
         android:id="@+id/textView12"
         android:layout_width="273dp"
         android:layout_height="85dp"
-        android:text="TextView"
+        android:text="NOTAS"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.879"
@@ -53,17 +54,19 @@
         app:layout_constraintVertical_bias="0.058" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/editTextTextMultiLine"
         android:layout_width="393dp"
-        android:layout_height="483dp"
+        android:layout_height="564dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="47dp"
+        android:layout_marginBottom="39dp"
         android:ems="10"
-        android:inputType="text"
-        android:text="Name"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.94"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.453" />
+        app:layout_constraintStart_toEndOf="@+id/lvComanda"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

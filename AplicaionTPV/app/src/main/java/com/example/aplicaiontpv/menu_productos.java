@@ -55,6 +55,10 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
         }else{
             tvInformacion.setText("CARTA");
         }
+        for(int i = 0; i < Menu_opciones.articulosComanda.size(); i++)
+            if(Menu_opciones.articulosComanda.get(i).getStock() > 0)
+                for(int j = 0; j < Menu_opciones.articulosComanda.get(i).getStock();j++)
+                    agregarArticuloAComanda(Menu_opciones.articulosComanda.get(i), true);
     }
     public static void mostrarImagenDesdeBytes(byte[] imageBytes, ImageView imageView) {
         if (imageBytes != null && imageView != null) {
@@ -130,18 +134,20 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
                 public void onClick(View view) {
                     // Display a Toast with the ID when the item is clicked
                     Articulo selectedArticulo = articulos.get(position);
-                    agregarArticuloAComanda(selectedArticulo);
+                    if(agregarArticuloAComanda(selectedArticulo,false))
+                        item.setVisibility(View.GONE);
                 }
             });
 
             return item;
         }
     }
-    private void agregarArticuloAComanda(Articulo articulo) {
+    private boolean agregarArticuloAComanda(Articulo articulo, boolean start) {
         String itemName = articulo.getNombre();
         double itemPrice = articulo.getPrecio();
         String itemString ="";
         boolean itemExists = false;
+        boolean stock0 = false;
 
         for (int i = 0; i < comandaStrings.size(); i++) {
             String existingItem = comandaStrings.get(i);
@@ -149,15 +155,19 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
             if (existingItem.contains(itemName)) {
                 actualizarPrecio(itemPrice);
                 String[] parts = existingItem.split(" x ");
-                int quantity = 1;
+                int quantity = 2;
 
-                if (parts.length > 1) {
+                if (parts.length > 1 && articulo.getStock() > quantity) {
                     quantity = Integer.parseInt(parts[1].trim()) + 1;
                 }
+                else if(articulo.getStock() == quantity)
+                    stock0 = true;
 
                 itemString = itemName + " x " + quantity;
                 comandaStrings.set(i, itemString);
                 itemExists = true;
+                if(Menu_opciones.FindIndex(articulo.getCod_articulo())!= -1 && start)
+                    Menu_opciones.articulosComanda.get(Menu_opciones.FindIndex(articulo.getCod_articulo())).setStock(quantity);
                 break;
             }
         }
@@ -165,6 +175,8 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
         if (!itemExists) {
             actualizarPrecio(itemPrice);
             comandaStrings.add(itemName);
+            if(start)
+                Menu_opciones.articulosComanda.add(articulo);
         }
 
         ArrayAdapter<String> comandaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, comandaStrings);
@@ -195,6 +207,7 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
                 comandaAdapter.notifyDataSetChanged();
             }
         });
+        return stock0;
     }
     public void actualizarPrecio(double precio) {
         String currentText = textView10.getText().toString().trim();

@@ -8,9 +8,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.aplicaiontpv.Objetos.Articulo;
+
+import java.util.ArrayList;
+
 public class Menu_opciones extends AppCompatActivity {
     private Button btLogOut,btTerminar;
     private ImageButton ibBebidas,ibMenu,ibCarta;
+    public static ArrayList<Articulo> articulosComanda = new ArrayList<Articulo>();
+
+    public static int FindIndex(long Codigo){
+        for(int i = 0; i< articulosComanda.size();i++)
+            if(articulosComanda.get(i).getCod_articulo() == Codigo)
+                return i;
+        return -1;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
