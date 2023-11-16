@@ -23,6 +23,7 @@
         android:layout_height="79dp"
         android:onClick="Aceptar"
         android:text="Finalizar Comanda"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.91"
@@ -30,16 +31,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.935" />
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="273dp"
-        android:layout_height="85dp"
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="194dp"
+        android:layout_height="91dp"
+        android:onClick="Volver"
+        android:text="Volver"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.475"
+        app:layout_constraintHorizontal_bias="0.024"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.942" />
+        app:layout_constraintVertical_bias="0.935" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="533dp"
+        android:layout_height="88dp"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.346"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.932" />
 
     <TextView
         android:id="@+id/textView12"
@@ -63,6 +79,7 @@
         android:layout_marginBottom="39dp"
         android:ems="10"
         android:gravity="start|top"
+        android:hint="Notas"
         android:inputType="textMultiLine"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"

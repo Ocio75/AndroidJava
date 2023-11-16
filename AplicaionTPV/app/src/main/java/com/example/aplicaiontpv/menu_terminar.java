@@ -3,6 +3,7 @@ package com.example.aplicaiontpv;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.WindowDecorActionBar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -23,8 +24,6 @@ public class menu_terminar extends AppCompatActivity {
     private TextView textView11;
     private EditText editTextText;
 
-    public static String Notas;
-
     ArrayList<String> comandaStrings = new ArrayList<>();
 
     private ListView lvComanda;
@@ -36,7 +35,7 @@ public class menu_terminar extends AppCompatActivity {
         textView11=findViewById(R.id.textView11);
         editTextText = findViewById(R.id.editTextTextMultiLine);
         lvComanda = findViewById(R.id.lvComanda);
-        editTextText.setText(Notas);
+        editTextText.setText(menu_menu.Notas);
 
         for(int i = 0; i < Menu_opciones.articulosComanda.size(); i++)
             if(Menu_opciones.articulosComanda.get(i).getStock() > 0)
@@ -45,24 +44,39 @@ public class menu_terminar extends AppCompatActivity {
     }
 
     public void Aceptar(View v){
-        String query="SELECT MAX(COD_COMANDA) FROM COMANDAS;";
+        String query="SELECT MAX(COD_COMANDA) FROM COMANDAS";
 
         try {
             Connection Conexion = ConexionSQLServer.conexionBD();
             ResultSet resultSet = Conexion.prepareStatement(query).executeQuery();
-            long cod_comanda = resultSet.getLong(1);
-            String query2="INSERT INTO COMANDAS (COD_COMANDA, DNI, NOTAS) VALUES ('" + cod_comanda + 1 + "', '" + MainActivity.dni + "', '" + editTextText.getText() + "')";
-            Conexion.prepareStatement(query2).executeQuery();
+            int cod_comanda = 0;
+            while (resultSet.next()) {
+                cod_comanda = resultSet.getInt(1) + 1;
+            }
+            String query2="INSERT INTO COMANDAS (COD_COMANDA, DNI, NOTAS) VALUES ('" + cod_comanda + "', '" + MainActivity.dni + "', '" + editTextText.getText() + "')";
+            Conexion.prepareStatement(query2).executeUpdate();
             for(int i = 0; i<Menu_opciones.articulosComanda.size();i++){
-                String query3="INSERT INTO ARTICULOS_COMANDAS (COD_ARTICULO, COD_COMANDA, CANTIDAD) VALUES ('" + Menu_opciones.articulosComanda.get(i).getCod_articulo() + "', '" + cod_comanda + "', '" + Menu_opciones.articulosComanda.get(i).getStock() + "')";
-                Conexion.prepareStatement(query3).executeQuery();
-                String query4="UPDATE Articulos SET STOCK = STOCK - " + Menu_opciones.articulosComanda.get(i).getStock() + " WHERE COD_ARTICULO = '" + Menu_opciones.articulosComanda.get(i).getCod_articulo() + "'";
-                Conexion.prepareStatement(query4).executeQuery();
+                if(Menu_opciones.articulosComanda.get(i).getTipo() != "Menu"){
+                    String query3="INSERT INTO ARTICULOS_COMANDAS (COD_ARTICULO, COD_COMANDA, CANTIDAD) VALUES ('" + Menu_opciones.articulosComanda.get(i).getCod_articulo() + "', '" + cod_comanda + "', '" + Menu_opciones.articulosComanda.get(i).getStock() + "')";
+                    Conexion.prepareStatement(query3).executeUpdate();
+                    String query4="UPDATE Articulos SET STOCK = STOCK - " + Menu_opciones.articulosComanda.get(i).getStock() + " WHERE COD_ARTICULO = '" + Menu_opciones.articulosComanda.get(i).getCod_articulo() + "'";
+                    Conexion.prepareStatement(query4).executeUpdate();
+                }
             }
             Menu_opciones.articulosComanda.clear();
+            Intent i;
+            i = new Intent(this, Menu_opciones.class);
+            startActivity(i);
+            finish();
         }catch(SQLException e){
             e.printStackTrace();
         }
+    }
+    public void Volver(View v){
+        Intent i;
+        i = new Intent(this, Menu_opciones.class);
+        startActivity(i);
+        finish();
     }
     private boolean agregarArticuloAComanda(Articulo articulo, boolean start) {
         String itemName = articulo.getNombre();
@@ -88,7 +102,7 @@ public class menu_terminar extends AppCompatActivity {
                 itemString = itemName + " x " + quantity;
                 comandaStrings.set(i, itemString);
                 itemExists = true;
-                if(Menu_opciones.FindIndex(articulo.getCod_articulo())!= -1 && start)
+                if(Menu_opciones.FindIndex(articulo.getCod_articulo())!= -1 && !start)
                     Menu_opciones.articulosComanda.get(Menu_opciones.FindIndex(articulo.getCod_articulo())).setStock(quantity);
                 break;
             }
@@ -97,7 +111,7 @@ public class menu_terminar extends AppCompatActivity {
         if (!itemExists) {
             actualizarPrecio(itemPrice);
             comandaStrings.add(itemName);
-            if(start)
+            if(!start)
                 Menu_opciones.articulosComanda.add(articulo);
         }
         ArrayAdapter<String> comandaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, comandaStrings);

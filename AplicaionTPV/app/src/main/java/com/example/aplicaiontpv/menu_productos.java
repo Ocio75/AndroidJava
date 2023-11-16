@@ -55,10 +55,6 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
         }else{
             tvInformacion.setText("CARTA");
         }
-        for(int i = 0; i < Menu_opciones.articulosComanda.size(); i++)
-            if(Menu_opciones.articulosComanda.get(i).getStock() > 0)
-                for(int j = 0; j < Menu_opciones.articulosComanda.get(i).getStock();j++)
-                    agregarArticuloAComanda(Menu_opciones.articulosComanda.get(i), true);
     }
     public static void mostrarImagenDesdeBytes(byte[] imageBytes, ImageView imageView) {
         if (imageBytes != null && imageView != null) {
@@ -68,7 +64,6 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
     }
     private void iniciarProductos(String tipo){
         String query="SELECT COD_ARTICULO, NOMBRE, TIPO, STOCK, PRECIO FROM Articulos WHERE TIPO ='" + tipo + "'";
-
         try{
             Connection Conexion = ConexionSQLServer.conexionBD();
             ResultSet resultSet = Conexion.prepareStatement(query).executeQuery();
@@ -92,6 +87,10 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
         }
         AdaptadorArticulos adaptador = new AdaptadorArticulos(this);
         gvArticulos.setAdapter(adaptador);
+        for(int i = 0; i < Menu_opciones.articulosComanda.size(); i++)
+            if(Menu_opciones.articulosComanda.get(i).getStock() > 0 && Menu_opciones.articulosComanda.get(i).getTipo().equals(tipo))
+                for(int j = 0; j < Menu_opciones.articulosComanda.get(i).getStock();j++)
+                    agregarArticuloAComanda(Menu_opciones.articulosComanda.get(i), true);
     }
     private void cargarSpiner(ArrayList<String> opciones, Spinner s) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, opciones);
@@ -166,7 +165,7 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
                 itemString = itemName + " x " + quantity;
                 comandaStrings.set(i, itemString);
                 itemExists = true;
-                if(Menu_opciones.FindIndex(articulo.getCod_articulo())!= -1 && start)
+                if(Menu_opciones.FindIndex(articulo.getCod_articulo())!= -1 && !start)
                     Menu_opciones.articulosComanda.get(Menu_opciones.FindIndex(articulo.getCod_articulo())).setStock(quantity);
                 break;
             }
@@ -175,8 +174,9 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
         if (!itemExists) {
             actualizarPrecio(itemPrice);
             comandaStrings.add(itemName);
-            if(start)
+            if(!start)
                 Menu_opciones.articulosComanda.add(articulo);
+            Menu_opciones.articulosComanda.get(Menu_opciones.FindIndex(articulo.getCod_articulo())).setStock(1);
         }
 
         ArrayAdapter<String> comandaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, comandaStrings);
@@ -212,17 +212,25 @@ public class menu_productos extends AppCompatActivity implements View.OnClickLis
     public void actualizarPrecio(double precio) {
         String currentText = textView10.getText().toString().trim();
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        if (!currentText.isEmpty()) {
-            double precioTotal = Double.parseDouble(currentText.replace("$", ""));
-            precioTotal += precio;
 
-            String formattedPrecioTotal = decimalFormat.format(precioTotal);
+        // Validate if currentText is a valid numeric string
+        if (!currentText.isEmpty() && !currentText.equalsIgnoreCase("TextView")) {
+            try {
+                double precioTotal = Double.parseDouble(currentText.replace("$", ""));
+                precioTotal += precio;
 
-            textView10.setText(formattedPrecioTotal + "$");
+                String formattedPrecioTotal = decimalFormat.format(precioTotal);
+
+                textView10.setText(formattedPrecioTotal + "$");
+            } catch (NumberFormatException e) {
+                // Handle the case when parsing fails
+                e.printStackTrace(); // Log the exception for debugging
+            }
         } else {
-            // Handle the case when the text is empty, e.g., initialize precioTotal to precio
+            // Handle the case when the text is empty or "TextView"
             String formattedPrecio = decimalFormat.format(precio);
             textView10.setText(formattedPrecio + "$");
         }
     }
+
 }

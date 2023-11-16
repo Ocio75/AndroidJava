@@ -12,6 +12,8 @@ import com.example.aplicaiontpv.Objetos.Articulo;
 
 public class menu_menu extends AppCompatActivity {
 
+
+    public static String Notas = "";
     public RadioGroup rgPrimero,rgSegundo,rgPostre ;
 
 
@@ -42,10 +44,7 @@ public class menu_menu extends AppCompatActivity {
                 "Segundo plato - " + (radioButton2 != null ? radioButton2.getText().toString() : "No seleccionado") + "\n" +
                 "Postre - " + (radioButton3 != null ? radioButton3.getText().toString() : "No seleccionado") + "\n";
 
-        if(menu_terminar.Notas.isEmpty())
-            menu_terminar.Notas = Menu;
-        else
-            menu_terminar.Notas += Menu;
+            Notas += Menu;
 
 
         byte[] imagen = new byte[10];
