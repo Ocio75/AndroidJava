@@ -51,8 +51,8 @@ public class menu_terminar extends AppCompatActivity {
             Connection Conexion = ConexionSQLServer.conexionBD();
             ResultSet resultSet = Conexion.prepareStatement(query).executeQuery();
             long cod_comanda = resultSet.getLong(1);
-            //String query2="INSERT INTO COMANDAS (COD_COMANDA, DNI, NOTAS) VALUES ('" + cod_comanda + 1 + "', '" + Login.DNI + "', '" + editTextText.getText() + "')";
-            //Conexion.prepareStatement(query2).executeQuery();
+            String query2="INSERT INTO COMANDAS (COD_COMANDA, DNI, NOTAS) VALUES ('" + cod_comanda + 1 + "', '" + MainActivity.dni + "', '" + editTextText.getText() + "')";
+            Conexion.prepareStatement(query2).executeQuery();
             for(int i = 0; i<Menu_opciones.articulosComanda.size();i++){
                 String query3="INSERT INTO ARTICULOS_COMANDAS (COD_ARTICULO, COD_COMANDA, CANTIDAD) VALUES ('" + Menu_opciones.articulosComanda.get(i).getCod_articulo() + "', '" + cod_comanda + "', '" + Menu_opciones.articulosComanda.get(i).getStock() + "')";
                 Conexion.prepareStatement(query3).executeQuery();
