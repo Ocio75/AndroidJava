@@ -21,15 +21,15 @@
 
     <ListView
         android:id="@+id/lvComanda"
-        android:layout_width="630dp"
-        android:layout_height="693dp"
+        android:layout_width="571dp"
+        android:layout_height="664dp"
         android:foregroundTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintHorizontal_bias="0.091"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.077" />
+        app:layout_constraintVertical_bias="0.165" />
 
     <TextView
         android:id="@+id/tvInformacion"
@@ -65,6 +65,7 @@
         android:layout_height="57dp"
         android:backgroundTint="#3273b2"
         android:text="Aceptar"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.964"
